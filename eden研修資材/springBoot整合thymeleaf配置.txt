@@ -1,0 +1,82 @@
+		
+--------------------------------------------pom.xml---------------------------------------------
+
+		<!-- 使用thymeleaf -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+
+		<!-- mybatis的依赖-->
+		<dependency>
+			<groupId>org.mybatis.spring.boot</groupId>
+			<artifactId>mybatis-spring-boot-starter</artifactId>
+			<version>3.0.3</version>
+		</dependency>
+
+		<!-- mysql的依赖-->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.33</version>
+		</dependency>
+
+		<!-- 热部署-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>			
+			<optional>true</optional>
+		</dependency>
+
+----------------------------------application.yml------------------------------------------------
+
+#spring配置  datasource数据源  thymeleaf模板引擎
+spring:
+  thymeleaf:
+    prefix:  classpath:/templates/    
+    suffix:  .html  #指定后缀
+    cache:  false   #是否开启缓存，开发中推荐使用false，可以立即生效
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url:  jdbc:mysql://localhost:3306/xxxxxxx?characterEncoding=UTF-8
+    username: root
+    password: xxxxxxxxx
+
+-------------------------------------------SQL------------------------------------------------
+--thymeleaf员工管理
+DROP DATABASE
+IF
+	EXISTS `eden-thymeleaf`;
+	
+CREATE DATABASE
+IF
+	NOT EXISTS `eden-thymeleaf` CHARACTER 
+	SET utf8mb4;
+	
+USE `eden-thymeleaf`;
+
+-- ----------------------------
+-- Table structure for employee
+-- ----------------------------
+DROP TABLE IF EXISTS `employee`;
+
+CREATE TABLE `employee` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(60) DEFAULT NULL COMMENT '员工姓名',
+  `salary` double(10,2) DEFAULT NULL COMMENT '员工工资',
+  `birthday` datetime DEFAULT NULL COMMENT '员工生日',  
+  `photo` varchar(200) DEFAULT NULL COMMENT '头像路径',
+  PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--id username realname,password, gender
+CREATE TABLE `user` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(40) DEFAULT NULL COMMENT '用户名',
+  `realname` varchar(60) DEFAULT NULL COMMENT '真实姓名',
+  `password` varchar(40) DEFAULT NULL COMMENT '密码',
+  `gender` tinyint unsigned DEFAULT NULL COMMENT '性别',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
