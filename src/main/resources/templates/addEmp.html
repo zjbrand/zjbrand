@@ -6,6 +6,7 @@
 		<link rel="stylesheet" type="text/css"
 			href="css/style.css" />
 	</head>
+
 	<body>
 		<div id="wrap">
 			<div id="top_content">
@@ -14,7 +15,7 @@
 						<p>
 							2009/11/20
 							<br/>
-						<a href="javascript:;" @click="logout">安全退出</a>
+							<a href="javascript:;" @click="logout">安全退出</a>
 						</p>
 					</div>
 					<div id="topheader">
@@ -39,7 +40,7 @@
 									名前:
 								</td>
 								<td valign="middle" align="left">
-					<input type="text" class="inputgri" name="name" />
+									<input type="text" class="inputgri" name="name" />
 								</td>
 							</tr>
 							<tr>
@@ -47,7 +48,7 @@
 									アバター:
 								</td>
 								<td valign="middle" align="left">
-							<input type="file" width="" name="img" />
+									<input type="file" width="" name="img" />
 								</td>
 							</tr>
 							<tr>
@@ -55,7 +56,7 @@
 									月給:
 								</td>
 								<td valign="middle" align="left">
-						<input type="text" class="inputgri" name="salary" />
+									<input type="text" class="inputgri" name="salary" />
 								</td>
 							</tr>
 							<tr>
@@ -63,12 +64,12 @@
 									誕生日:
 								</td>
 								<td valign="middle" align="left">
-					<input type="text" class="inputgri"  name="birthday" />
+									<input type="text" class="inputgri"  name="birthday" />
 								</td>
 							</tr>
 						</table>
 						<p>
-	<input type="submit" class="button" value="提出する &raquo" />		
+							<input type="submit" class="button" value="提出する &raquo" />							
 						</p>
 					</form>
 				</div>
@@ -81,3 +82,63 @@
 		</div>
 	</body>
 </html>
+<script src="/ems_vue/js/vue.js"></script>
+<script src="/ems_vue/js/axios.min.js"></script>
+<script>
+	var app = new Vue({
+		el: "#wrap",
+		data: {  //数据
+			user:{
+				realname:"",
+			},//用来存放用户登录信息
+			emp:{}//定义员工信息
+		},
+		methods: { //自定义函数
+			//处理安全退出
+			logout(){
+				localStorage.removeItem("user");
+				location.reload(true);//刷新页面
+			},
+			//用来保存员工信息
+			saveEmp(){
+				console.log(this.emp); //员工信息
+				console.log(this.$refs.myPhoto.files[0]);//获取文件信息
+				//文件上传时 请求方式必须是post  enctype必须为multipart/form-data
+				var formData = new FormData();
+				formData.append("name",this.emp.name);
+				formData.append("salary",this.emp.salary);
+				formData.append("age",this.emp.age);
+				formData.append("photo",this.$refs.myPhoto.files[0]);
+				var _this = this;
+				axios({
+					method:"post",
+					url:"http://localhost:8989/ems_vue/emp/save",
+					data:formData,
+					headers:{
+						'content-type':'multipart/form-data'
+					}
+				}).then(res=>{
+					console.log(res.data);
+					if(res.data.state){
+						if(window.confirm(res.data.msg+",点击确定跳转到列表页面!")){
+							location.href="/ems_vue/emplist.html";
+						}else{
+							_this.emp = {};
+						}
+					}else{
+						alert(res.data.msg);
+					}
+				});
+			}
+		},
+		created(){//生命周期函数
+			var userString = localStorage.getItem("user");
+			if(userString){
+				this.user =  JSON.parse(userString);
+			}else{
+				alert("您尚未登录,点击确定跳转至登录页面!");
+				location.href ="/ems_vue/login.html";
+			}
+		}
+	});
+</script>

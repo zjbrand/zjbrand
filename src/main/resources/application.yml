@@ -5,9 +5,9 @@ server:
     
 spring:
   thymeleaf:
-    prefix: classpath:/templates/  #指定模板前缀
-    suffix: .html
-    cache: false  #不适用缓存
+    prefix:  classpath:/templates/    
+    suffix:  .html  #指定后缀
+    cache:  false   #是否开启缓存，开发中推荐使用false，可以立即生效
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver

@@ -68,3 +68,30 @@
 </div>
 </body>
 </html>
+<script src="/ems_vue/js/vue.js"></script>
+<script src="/ems_vue/js/axios.min.js"></script>
+<script>
+    var app = new Vue({
+        el: "#wrap",
+        data: {
+            user:{},//用来保存用户数据
+        },
+        methods:{
+            //用户登录
+            login(){
+                //发送登录请求
+                axios.post("http://localhost:8989/ems_vue/user/login",this.user).then(res=>{
+                    console.log(res.data);
+                    if(res.data.state){
+                        alert(res.data.msg+",点击确定进入主页!");
+                        //将登录用户信息放入localStorage key  value
+                        localStorage.setItem("user",JSON.stringify(res.data.user));
+                        location.href="/ems_vue/emplist.html";
+                    }else{
+                        alert(res.data.msg);
+                    }
+                });
+            }
+        }
+    });
+</script>
