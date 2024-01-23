@@ -1,0 +1,39 @@
+server:
+  port: 8076
+  servlet:
+    context-path: /springBoot-demo
+    
+spring:
+  thymeleaf:
+    prefix: classpath:/templates/  #指定模板前缀
+    suffix: .html
+    cache: false  #不适用缓存
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url:  jdbc:mysql://localhost:3306/eden-thymeleaf?characterEncoding=UTF-8
+    username: root
+    password: 5312448th
+  web:
+    resources:
+      static-locations: classpath:/static/,file:${file.upload.dir}
+
+#配置日志
+logging:
+  level:
+    root: info
+    '[com.eden]':  debug  
+
+#mybatis配置
+mybatis:
+  mapper-locations:  classpath:com/eden/mapper/*.xml
+  type-aliases-package: com.eden.entity
+  
+
+  
+#指定文件上传位置
+file:
+  upload:
+    dir: C:\pleiades2023\2023-12\workspace202312\spring-demo\photos
+
+

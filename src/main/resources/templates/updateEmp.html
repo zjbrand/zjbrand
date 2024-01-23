@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html  lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>update Emp</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<link rel="stylesheet" type="text/css"
+			th:href="@{/css/style.css}" />
+	</head>
+
+	<body>
+		<div id="wrap">
+			<div id="top_content">
+				<div id="header">
+					<div id="rightheader">
+						<p>
+							2009/11/20
+							<br/>
+							<a href="javascript:;" @click="logout">安全退出</a>
+						</p>
+					</div>
+					<div id="topheader">
+						<h1 id="title">
+							<a href="/ems_vue/emplist.html">main</a>
+						</h1>
+					</div>
+					<div id="navigation">
+					</div>
+				</div>
+				<div id="content">
+					<p id="whereami">
+					</p>
+					<h1>
+						社員情報更新
+					</h1>
+					<form th:action="@{/employee/update}" method="post" enctype="multipart/form-data">
+						<table cellpadding="0" cellspacing="0" border="0"
+							class="form_table">
+							<tr>
+								<td valign="middle" align="right">
+									番号:
+								</td>
+								<td valign="middle" align="left">
+									<span th:text="${employee.id}"></span>
+									<input type="hidden" name="id" th:value="${employee.id}"/>
+								</td>
+							</tr>
+							<tr>
+								<td valign="middle" align="right">
+									名前:
+								</td>
+								<td valign="middle" align="left">
+									<input type="text" class="inputgri" name="name" th:value="${employee.name}"/>
+								</td>
+							</tr>
+							<tr>
+								<td valign="middle" align="right">
+									古いアバター:
+								</td>
+								<td valign="middle" align="left">
+									<img th:src="@{/}+${employee.photo}" style="height: 60px;" >
+									<input type="hidden" th:value="${employee.photo}" name="photo"/>
+								</td>
+							</tr>							
+							<tr>
+								<td valign="middle" align="right">
+									アバター更新:
+								</td>
+								<td valign="middle" align="left">
+									<input type="file" name="img" />
+								</td>
+							</tr>
+							<tr>
+								<td valign="middle" align="right">
+									月給:
+								</td>
+								<td valign="middle" align="left">
+									<input type="text" class="inputgri" name="salary" th:value="${employee.salary}"/>
+								</td>
+							</tr>
+							<tr>
+								<td valign="middle" align="right">
+									誕生日:
+								</td>
+								<td valign="middle" align="left">
+									<input type="text" class="inputgri" name="birthday" th:value="${#dates.format(employee.birthday,'yyyy/MM/dd')}"/>
+								</td>
+							</tr>
+						</table>
+						<p>
+							<input type="submit"  class="button" value="提交&raquo" />							
+						</p>
+					</form>
+				</div>
+			</div>
+			<div id="footer">
+				<div id="footer_bg">
+					ABC@126.com
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
